@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require("jquery");
   var PopupMenu = require("fc/bramble-popupmenu");
   var analytics = require("analytics");
+  var snippets = require("fc/snippets");
 
   function setupUserMenu() {
     PopupMenu.create("#navbar-logged-in .dropdown-toggle", "#navbar-logged-in .dropdown-content");
@@ -11,7 +12,38 @@ define(function(require) {
   function setupLocaleMenu() {
     PopupMenu.create("#navbar-locale .dropdown-toggle", "#navbar-locale .dropdown-content");
   }
+  
+  function setupSnippetsMenu(bramble) {
+	  // Gear Snippets menu
+    PopupMenu.createWithOffset("#editor-pane-nav-snippets", "#editor-pane-nav-snippets-menu");
 
+	var ul = document.getElementById("editor-pane-nav-snippets-ul");
+	var snippetsObject = snippets.getSnippetObj();
+	
+	for (var key in snippetsObject) {
+	   if (snippetsObject.hasOwnProperty(key)) {
+		  var obj = snippetsObject[key];
+		  for (var prop in obj) {
+			 if (obj.hasOwnProperty(prop)) {
+				var li = document.createElement("li");
+				li.appendChild(document.createTextNode(obj[prop].name));
+				li.setAttribute("title", obj[prop].title);
+				li.setAttribute("id", obj[prop].id);
+				li.setAttribute("data-snippet", obj[prop].data);				// added line
+				ul.appendChild(li);
+				
+				$("#" + obj[prop].id).click(function() {
+					var snippet = $(this).attr("data-snippet");
+					bramble.addCodeSnippet(
+						snippet
+					);
+				});
+			 }
+		  }
+	   }
+	}
+  }
+  
   function setupOptionsMenu(bramble) {
     // Gear Options menu
     PopupMenu.createWithOffset("#editor-pane-nav-options", "#editor-pane-nav-options-menu");
@@ -241,6 +273,7 @@ define(function(require) {
   }
 
   function init(bramble) {
+	setupSnippetsMenu(bramble);
     setupOptionsMenu(bramble);
     setupAddFileMenu(bramble);
     setupUserMenu();
