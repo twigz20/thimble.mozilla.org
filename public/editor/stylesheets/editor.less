@@ -335,15 +335,26 @@ body {
 
 /* Snippets */
 #editor-pane-nav-snippets {
+  background-color: #2B2B2B;
+  height: 20px;
+  width: 80px;
+  padding: 5px;
+  padding-left: 20px;
+  border-radius: 50%;
+  margin-left: 6px;
+  margin-right: 6px;
+  position: relative;
   .icon;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  padding: 4px;
 
   img {
-      width: 22px;
-      display: block;
-    }
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: 7px;
+    left: 8px;
+  }
 
 }
 
@@ -367,6 +378,8 @@ body {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    max-height:250px;/* you can change as you need it */
+    overflow:auto;/* to get scroll */
     li {
       padding: 12px;
       display: flex;
